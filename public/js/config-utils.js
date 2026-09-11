@@ -82,9 +82,6 @@ function esc(v)
 
 function save()
 {
-    // Never persist a mid-proctoring page across reloads - the camera stream
-    // and fullscreen state cannot survive a refresh, so resuming here would
-    // strand the user on a broken screen. Fall back to the assessments list.
     const pageToPersist = (state.page === 'quiz' || state.page === 'proctor-check') ? 'assess' : state.page;
     localStorage.setItem('saksham.loggedIn', state.loggedIn ? '1' : '0');
     localStorage.setItem('saksham.role', state.role);
@@ -94,6 +91,8 @@ function save()
     localStorage.setItem('saksham.lastResult', JSON.stringify(state.lastResult));
     localStorage.setItem('saksham.assessmentsDone', JSON.stringify(state.assessmentsDone));
     localStorage.setItem('saksham.history', JSON.stringify(state.history));
+    localStorage.setItem('saksham.examsDone', JSON.stringify(state.examsDone));
+    localStorage.setItem('saksham.examHistory', JSON.stringify(state.examHistory));
 }
 
 function priorityForGap(gap)
@@ -185,10 +184,6 @@ function crumbs()
 
 function openPage(p, arg = null)
 {
-    // While a proctored assessment is active, the menu is locked - block any
-    // navigation away from the quiz/proctor-check flow rather than silently
-    // tearing down the exam session. The person must use the in-quiz Exit
-    // button, which ends proctoring explicitly before navigating.
     if (typeof proctor !== 'undefined' && proctor.active && p !== 'quiz' && p !== 'proctor-check')
     {
         proctorShowToast(t('common.navLockedToast'));
@@ -221,8 +216,6 @@ function openPage(p, arg = null)
 
 function logout()
 {
-    // Block logging out mid-exam for the same reason navigation is blocked -
-    // the person must exit the proctored session explicitly first.
     if (typeof proctor !== 'undefined' && proctor.active)
     {
         proctorShowToast(t('common.navLockedToast'));

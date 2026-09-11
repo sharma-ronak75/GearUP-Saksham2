@@ -1,10 +1,6 @@
 function shell()
 {
     const links = nav[state.role] || [];
-    // The whole navigation chrome (sidebar + topbar) is locked while a
-    // proctored assessment is in progress, so the person can't wander off
-    // mid-exam. Locked elements lose their click handlers entirely (not just
-    // a CSS overlay) so there's no way to trigger navigation while locked.
     const locked = typeof proctor !== 'undefined' && proctor.active;
     const lockedAttr = locked ? `aria-disabled="true" title="${esc(t('common.navLockedTooltip'))}"` : '';
 

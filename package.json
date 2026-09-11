@@ -5,14 +5,11 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "service": "node service.js",
-    "dev": "node --watch server.js",
-    "dev:service": "node --watch service.js"
+    "service": "node service.js"
   },
   "dependencies": {
     "@openrouter/sdk": "^1.2.117",
     "express": "^5.1.0",
-    "openai": "^7.15.0",
     "ws": "^8.21.3"
   }
 }

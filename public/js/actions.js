@@ -19,7 +19,7 @@ async function handleLogin()
         
         if(remember)
         {
-            // alert();
+            alert();
             localStorage.setItem('email', data.email);
             localStorage.setItem('session', data.session);
             localStorage.setItem('username', data.username);
@@ -74,9 +74,9 @@ async function handleDemoAdmin()
 
 async function handleQuizSubmit()
 {
-    // Pad unanswered questions (e.g. from a proctoring auto-submit) so the
-    // backend still receives one answer per question; unanswered = -1 (never matches).
-    const questions = state.data.questionBank[state.quizAssessment] || [];
+    const isExam = state.quizKind === 'exam';
+    const bank = isExam ? state.data.examQuestionBank : state.data.questionBank;
+    const questions = bank[state.quizAssessment] || [];
     const answers = questions.map((_, i) => state.quizAnswers[i] !== undefined ? state.quizAnswers[i] : -1);
 
     try
@@ -85,17 +85,30 @@ async function handleQuizSubmit()
             email: localStorage.getItem('email'),
             session: localStorage.getItem('session'),
             assessmentId: state.quizAssessment,
+            kind: isExam ? 'exam' : 'assessment',
             answers
         });
         state.data.competencies = result.competencies;
         state.lastResult = result;
-        state.assessmentsDone = [...new Set([...state.assessmentsDone, state.quizAssessment])];
-        state.history.push({
+        const historyEntry = {
             assessment: result.assessment,
             score: result.score,
+            correct: result.correct,
+            wrong: result.wrong,
+            skipped: result.skipped,
             prevLevel: result.prevLevel,
             newLevel: result.newLevel
-        });
+        };
+        if (isExam)
+        {
+            state.examsDone = [...new Set([...state.examsDone, state.quizAssessment])];
+            state.examHistory.push(historyEntry);
+        }
+        else
+        {
+            state.assessmentsDone = [...new Set([...state.assessmentsDone, state.quizAssessment])];
+            state.history.push(historyEntry);
+        }
         state.lastProctorSummary = {
             violations: [...proctor.violations],
             terminatedReason: state.quizTerminatedReason || null

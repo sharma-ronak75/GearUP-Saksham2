@@ -31,8 +31,6 @@ async function sendLLMRequest(prompt, onres) {
   let res = "";
    
   for await (const chunk of completion) {
-        // const reasoning = chunk.choices[0]?.delta?.reasoning_content;
-        // if (reasoning) process.stdout.write(reasoning);
         process.stdout.write(chunk.choices[0]?.delta?.content || '')
         res += chunk.choices[0]?.delta?.content || '';
     
@@ -42,7 +40,7 @@ res = trimWord(res, "true");
   onres(res);
 }
 
-// main(
+// sendLLRequest(
 //   "2 + 2 (answer in 1 sentence)",
 //   function(response, error) {
 //     if (error) {
@@ -149,6 +147,8 @@ function getAppData(email, session)
         learningPathSql: catalog.learningPathSql,
         assessments: assessmentsData.assessments,
         questionBank: assessmentsData.questionBank,
+        exams: assessmentsData.exams || [],
+        examQuestionBank: assessmentsData.examQuestionBank || {},
         trainingPrograms: trainingData.trainingPrograms,
         departments: catalog.departments,
         workforce: catalog.workforce,
@@ -159,7 +159,9 @@ function getAppData(email, session)
         priorityStyles: catalog.priorityStyles,
         requiredByRole: catalog.requiredByRole,
         assessmentsDone: user.assessmentsDone || [],
-        assessmentHistory: user.assessmentHistory || []
+        assessmentHistory: user.assessmentHistory || [],
+        examsDone: user.examsDone || [],
+        examHistory: user.examHistory || []
     };
 }
 
@@ -231,15 +233,20 @@ function handleAssessmentSubmit(socket, requestId, message)
         return;
     }
 
-    const assessment = assessmentsData.assessments.find(item => item.id === message.assessmentId);
+    const kind = message.kind === 'exam' ? 'exam' : 'assessment';
+    const isExam = kind === 'exam';
+    const source = isExam ? (assessmentsData.exams || []) : assessmentsData.assessments;
+    const bank = isExam ? (assessmentsData.examQuestionBank || {}) : assessmentsData.questionBank;
+
+    const assessment = source.find(item => item.id === message.assessmentId);
     if (!assessment)
     {
-        fail(socket, requestId, 'Assessment not found.');
+        fail(socket, requestId, isExam ? 'Exam not found.' : 'Assessment not found.');
         return;
     }
 
     const answers = Array.isArray(message.answers) ? message.answers : [];
-    const questions = assessmentsData.questionBank[assessment.id] || [];
+    const questions = bank[assessment.id] || [];
 
     if (answers.length !== questions.length)
     {
@@ -248,10 +255,14 @@ function handleAssessmentSubmit(socket, requestId, message)
     }
 
     let correct = 0;
+    let skipped = 0;
     questions.forEach((question, index) =>
     {
-        if (Number(answers[index]) === question.answer) correct += 1;
+        const given = Number(answers[index]);
+        if (given === -1 || Number.isNaN(given)) skipped += 1;
+        else if (given === question.answer) correct += 1;
     });
+    const wrong = questions.length - correct - skipped;
 
     const score = Math.round((correct / questions.length) * 100);
     user.competencies = Array.isArray(user.competencies) ? user.competencies : [];
@@ -268,23 +279,31 @@ function handleAssessmentSubmit(socket, requestId, message)
         competency.lastAssessed = 'Just now';
     }
 
-    user.assessmentsDone = Array.isArray(user.assessmentsDone) ? user.assessmentsDone : [];
-    user.assessmentHistory = Array.isArray(user.assessmentHistory) ? user.assessmentHistory : [];
-    if (!user.assessmentsDone.includes(assessment.id)) user.assessmentsDone.push(assessment.id);
+    const doneKey = isExam ? 'examsDone' : 'assessmentsDone';
+    const historyKey = isExam ? 'examHistory' : 'assessmentHistory';
+    user[doneKey] = Array.isArray(user[doneKey]) ? user[doneKey] : [];
+    user[historyKey] = Array.isArray(user[historyKey]) ? user[historyKey] : [];
+    if (!user[doneKey].includes(assessment.id)) user[doneKey].push(assessment.id);
 
     const result = {
+        kind,
         assessment,
         score,
         correct,
+        wrong,
+        skipped,
         total: questions.length,
         prevLevel,
         newLevel: competency?.current ?? prevLevel,
         competencies: user.competencies
     };
 
-    user.assessmentHistory.push({
+    user[historyKey].push({
         assessment,
         score,
+        correct,
+        wrong,
+        skipped,
         prevLevel,
         newLevel: result.newLevel
     });

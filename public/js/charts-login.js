@@ -67,6 +67,45 @@ function svgLine(values, labels = ['Q1', 'Q2', 'Q3', 'Q4'])
         </svg>`; 
 }
 
+function svgPie(segments)
+{
+    const w = 320, h = 220, cx = 110, cy = 110, r = 90;
+    const total = segments.reduce((s, seg) => s + seg.value, 0) || 1;
+
+    let angle = -Math.PI / 2;
+    const arcs = segments.filter(seg => seg.value > 0).map(seg =>
+    {
+        const slice = (seg.value / total) * 2 * Math.PI;
+        const start = angle;
+        const end = angle + slice;
+        angle = end;
+        const x1 = cx + Math.cos(start) * r, y1 = cy + Math.sin(start) * r;
+        const x2 = cx + Math.cos(end) * r, y2 = cy + Math.sin(end) * r;
+        const largeArc = slice > Math.PI ? 1 : 0;
+        const isFullCircle = seg.value === total;
+        const d = isFullCircle
+            ? `M ${cx - r},${cy} A ${r},${r} 0 1 1 ${cx + r},${cy} A ${r},${r} 0 1 1 ${cx - r},${cy} Z`
+            : `M ${cx},${cy} L ${x1},${y1} A ${r},${r} 0 ${largeArc} 1 ${x2},${y2} Z`;
+        const pct = Math.round((seg.value / total) * 100);
+        return { d, color: seg.color, label: seg.label, value: seg.value, pct };
+    });
+
+    return `
+        <div class="flex" style="gap:24px;flex-wrap:wrap;align-items:center">
+            <svg viewBox="0 0 ${w} ${h}" style="width:220px;height:220px;flex-shrink:0" role="img" aria-label="Question breakdown">
+                ${arcs.map(a => `<path d="${a.d}" fill="${a.color}" stroke="#fff" stroke-width="2"/>`).join('')}
+            </svg>
+            <div class="flex" style="flex-direction:column;gap:8px">
+                ${arcs.map(a => `
+                    <div class="flex" style="align-items:center;gap:8px">
+                        <span style="width:12px;height:12px;border-radius:3px;background:${a.color};display:inline-block"></span>
+                        <span style="font-weight:600">${esc(a.label)}</span>
+                        <span style="color:var(--ink-soft)">${a.value} (${a.pct}%)</span>
+                    </div>`).join('')}
+            </div>
+        </div>`;
+}
+
 function loginPage()
 { 
     return `
@@ -82,12 +121,13 @@ function loginPage()
                     </div>
                     <div class="login-hero-copy">
                         <h1>${esc(t('login.heroHeadline'))}</h1>
-                        <p style="color:#C7CFD8;max-width:420px">${esc(t('login.heroSubtext'))}</p>
+                        <p style="color:#C7CFD8;max-width:420px;text-shadow: 0px 0px 5px black;">${esc(t('login.heroSubtext'))}</p>
                     </div>
                 </div>
                 <div style="text-align: center">
-                    <img style="width:500px; margin-top:-120px;" src="igot-nobg.png" alt="IGot Karamyogi Logo">
-                </div>
+                    <!--<img style="width:60vh; margin-top:-250vh;opacity:1;" src="igot-nobg.png" alt="IGot Karamyogi Logo">-->
+                    </div>
+                    <div style='left:20vh; top:40vh; width:50vh; height:50vh; position:fixed; background-image: url("igot-nobg.png");background-size:contain;'></div>
                 <div class="login-hero-steps">
                     <span>About Saksham</span><span>Privacy Policy</span><span>Terms & Conditions</span>
                 </div>
@@ -148,4 +188,3 @@ function loginPage()
             </div>
         </div>`; 
 }
-

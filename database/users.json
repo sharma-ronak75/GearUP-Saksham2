@@ -2,7 +2,7 @@
     "testificate@test.com": {
         "username": "Testificate",
         "password": "12345678",
-        "session": "ujagscq3pklisvhrdkthz1g7n12j6pul4t3ehb7r79lt4uddhfowzvr9x886p7py",
+        "session": "zgsbxcr5lll4qhirz0d6e249125q9dwskjk58pq34tu2d5irxw8wdzpwsybx9gt5",
         "id": 12121,
         "designation": "Statistical Officer",
         "department": "Department of Statistics",
@@ -203,6 +203,27 @@
                 "score": 0,
                 "prevLevel": 4,
                 "newLevel": 4
+            }
+        ],
+        "examsDone": [
+            "e-sql"
+        ],
+        "examHistory": [
+            {
+                "assessment": {
+                    "id": "e-sql",
+                    "title": "SQL Exam",
+                    "competency": "SQL",
+                    "questions": 12,
+                    "minutes": 30,
+                    "difficulty": "Advanced"
+                },
+                "score": 33,
+                "correct": 4,
+                "wrong": 8,
+                "skipped": 0,
+                "prevLevel": 2,
+                "newLevel": 2
             }
         ]
     },

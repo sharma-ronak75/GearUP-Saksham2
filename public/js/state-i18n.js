@@ -3,12 +3,12 @@ const state = {
     role: localStorage.getItem('saksham.role') || 'employee',
     page: (() => {
         const stored = localStorage.getItem('saksham.page');
-        // 'ai' page was removed; 'recommend' was merged into 'assess' - remap old saved values.
         if (stored === 'ai' || stored === 'recommend') return stored === 'recommend' ? 'assess' : 'dashboard';
         return stored || 'dashboard';
     })(),
     selectedGap: null,
     quizAssessment: null,
+    quizKind: 'assessment',
     quizIndex: 0,
     quizAnswers: [],
     quizTerminatedReason: null,
@@ -16,6 +16,8 @@ const state = {
     lastResult: JSON.parse(localStorage.getItem('saksham.lastResult') || 'null'),
     assessmentsDone: JSON.parse(localStorage.getItem('saksham.assessmentsDone') || '[]'),
     history: JSON.parse(localStorage.getItem('saksham.history') || '[]'),
+    examsDone: JSON.parse(localStorage.getItem('saksham.examsDone') || '[]'),
+    examHistory: JSON.parse(localStorage.getItem('saksham.examHistory') || '[]'),
     language: localStorage.getItem('saksham.language') || 'en',
     data: null,
     mobileOpen: false,
@@ -245,6 +247,11 @@ const I18N = {
             trainingParticipation: 'Training participation', 
             tabIgotTraining: 'iGOT / Training', 
             tabAssessments: 'Assessments', 
+            tabExams: 'Exams', 
+            examsCompletedLabel: 'Exams completed', 
+            resultRight: 'Right', 
+            resultWrong: 'Wrong', 
+            resultSkipped: 'Skipped', 
             navLockedBanner: 'Menu locked during the proctored assessment', 
             navLockedTooltip: 'Locked during the proctored assessment', 
             navLockedToast: 'Finish or exit the proctored assessment before navigating.' 
@@ -310,6 +317,7 @@ const I18N = {
             welcome: 'Welcome', 
             noGapsFound: 'No gaps at this priority level.', 
             assessmentNotFound: 'Assessment not found.', 
+            examNotFound: 'Exam not found.', 
             noResultFound: 'No assessment result available yet.', 
             dashboardPriorityGaps: 'Priority skill gaps', 
             dashboardRecommendedLearning: 'Recommended learning', 
@@ -475,6 +483,11 @@ Object.assign(I18N.hi.common, {
     logOut: 'लॉग आउट', 
     tabIgotTraining: 'iGOT / प्रशिक्षण', 
     tabAssessments: 'आकलन', 
+    tabExams: 'परीक्षा', 
+    examsCompletedLabel: 'पूर्ण की गई परीक्षाएं', 
+    resultRight: 'सही', 
+    resultWrong: 'गलत', 
+    resultSkipped: 'छोड़े गए', 
     navLockedBanner: 'प्रोक्टर्ड आकलन के दौरान मेनू लॉक है', 
     navLockedTooltip: 'प्रोक्टर्ड आकलन के दौरान लॉक', 
     navLockedToast: 'नेविगेट करने से पहले प्रोक्टर्ड आकलन समाप्त करें या बाहर निकलें।', 

@@ -102,8 +102,6 @@ async function proctorEnterFullscreen()
     }
     catch (e)
     {
-        // Fullscreen can be denied/unsupported (e.g. some mobile browsers) -
-        // proctoring still works via tab-visibility detection alone.
     }
 }
 
@@ -114,7 +112,7 @@ function proctorExitFullscreen()
         if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
         else if (document.webkitFullscreenElement && document.webkitExitFullscreen) document.webkitExitFullscreen();
     }
-    catch (e) { /* ignore */ }
+    catch (e) {}
 }
 
 function proctorIsFullscreen()
@@ -157,7 +155,6 @@ function proctorTerminate(reason)
 
 function autoSubmitOnTermination(reason)
 {
-    // Submit whatever answers exist so far, flagged as proctoring-terminated.
     state.quizTerminatedReason = reason;
     handleQuizSubmit();
 }
@@ -171,7 +168,7 @@ function proctorOnVisibilityChange()
 function proctorOnBlur()
 {
     if (!proctor.active) return;
-    if (document.hidden) return; // avoid double-count with visibilitychange
+    if (document.hidden) return;
     proctorRecordViolation('The assessment window lost focus.');
 }
 
@@ -234,9 +231,10 @@ function proctorEndExam()
     proctorStopDevices();
 }
 
-function proctorBeginCheck(assessmentId)
+function proctorBeginCheck(assessmentId, kind = 'assessment')
 {
     state.quizAssessment = assessmentId;
+    state.quizKind = kind;
     state.quizIndex = 0;
     state.quizAnswers = [];
     state.quizTerminatedReason = null;
@@ -251,7 +249,7 @@ function proctorCancelCheck()
 {
     proctorStopDevices();
     state.page = 'assess';
-    state.trainingSubTab = 'assess';
+    state.trainingSubTab = state.quizKind === 'exam' ? 'exam' : 'assess';
     save();
     render();
 }
@@ -260,7 +258,7 @@ function proctorExitQuiz()
 {
     proctorEndExam();
     state.page = 'assess';
-    state.trainingSubTab = 'assess';
+    state.trainingSubTab = state.quizKind === 'exam' ? 'exam' : 'assess';
     save();
     render();
 }
@@ -269,8 +267,9 @@ function proctorExitQuiz()
 
 function proctorCheckPage()
 {
-    const a = state.data.assessments.find(x => x.id === state.quizAssessment);
-    if (!a) return empty(t('pages.assessmentNotFound'));
+    const isExam = state.quizKind === 'exam';
+    const a = (isExam ? state.data.exams : state.data.assessments).find(x => x.id === state.quizAssessment);
+    if (!a) return empty(t(isExam ? 'pages.examNotFound' : 'pages.assessmentNotFound'));
 
     const camItem = proctor.checking
         ? { cls: 'pending', label: 'Requesting camera access…' }

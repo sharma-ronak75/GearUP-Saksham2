@@ -22,6 +22,7 @@ function employeeDashboard()
             ${kpi(t('common.learningProgressLabel'), '1 of 4 phases', 'SQL learning path', '#0E7C7B')}
             ${kpi(t('common.assessmentsCompletedLabel'), state.assessmentsDone.length, `of ${state.data.assessments.length} available`, '#2F6F4F')}
             ${kpi(t('common.competenciesImproved'), state.assessmentsDone.length, 'via completed assessments', '#9C8B3C')}
+            ${kpi(t('common.examsCompletedLabel'), state.examsDone.length, `of ${(state.data.exams || []).length} available`, '#0E7C7B')}
         </div>
         <div class="grid-2 mb-16">
             <div class="card">
@@ -375,10 +376,7 @@ function assessmentsPageBody()
 
 function trainingAssessPage()
 {
-    // iGOT/Training and Assessments used to be two separate sidebar tabs;
-    // they're merged here into one page with an internal pill-switcher so
-    // there's a single nav entry, with a fade so switching feels seamless.
-    const tab = state.trainingSubTab === 'assess' ? 'assess' : 'igot';
+    const tab = ['igot', 'assess', 'exam'].includes(state.trainingSubTab) ? state.trainingSubTab : 'igot';
     return pageHeader(t('pages.assessTitle'), t('pages.assessSubtitle')) + `
         <div class="pill-nav">
             <button class="${tab === 'igot' ? 'btn-primary' : 'btn-secondary'}" onclick="state.trainingSubTab='igot';save();render()">
@@ -387,18 +385,53 @@ function trainingAssessPage()
             <button class="${tab === 'assess' ? 'btn-primary' : 'btn-secondary'}" onclick="state.trainingSubTab='assess';save();render()">
                 ${esc(t('common.tabAssessments'))}
             </button>
+            <button class="${tab === 'exam' ? 'btn-primary' : 'btn-secondary'}" onclick="state.trainingSubTab='exam';save();render()">
+                ${esc(t('common.tabExams'))}
+            </button>
         </div>
         <div class="tab-fade" data-tab="${tab}">
-            ${tab === 'igot' ? recommendPageBody() : assessmentsPageBody()}
+            ${tab === 'igot' ? recommendPageBody() : tab === 'assess' ? assessmentsPageBody() : examsPageBody()}
+        </div>`;
+}
+
+function examsPageBody()
+{
+    const exams = state.data.exams || [];
+    return `
+        <div class="grid-auto">
+            ${exams.map(a => {
+                const c = state.data.competencies.find(x => x.name === a.competency);
+                const done = state.examsDone.includes(a.id);
+                return `
+                    <div class="card">
+                        <div class="card-row">
+                            <div style="font-weight:700;font-size:16px">${esc(a.title)}</div>
+                            ${done ? badge('Completed', 'var(--good)', 'var(--good-soft)') : ''}
+                        </div>
+                        <div class="small" style="color:var(--ink-soft);margin:8px 0">${esc(a.competency)}</div>
+                        <div class="small" style="color:var(--ink-soft);display:flex;gap:14px;margin-bottom:8px">
+                            <span>☷ ${a.questions} questions</span>
+                            <span>◷ ${a.minutes} min</span>
+                        </div>
+                        ${c ? `<div class="tiny" style="color:var(--ink-soft);margin-bottom:10px">
+                            ${esc(t('common.current'))}: ${esc(state.data.levelNames[c.current])} → ${esc(t('common.target'))}: ${esc(state.data.levelNames[c.required])}
+                        </div>` : ''}
+                        <button class="${done ? 'btn-secondary' : 'btn-teal'} btn-block" onclick="proctorBeginCheck(${esc(JSON.stringify(a.id))}, 'exam')">
+                            ${esc(done ? t('common.retakeAssessment') : t('common.startAssessment'))}
+                        </button>
+                    </div>`;
+            }).join('')}
         </div>`;
 }
 
 function quizPage()
 { 
-    const a = state.data.assessments.find(x => x.id === state.quizAssessment); 
-    const questions = state.data.questionBank[state.quizAssessment] || []; 
+    const isExam = state.quizKind === 'exam'; 
+    const a = (isExam ? state.data.exams : state.data.assessments).find(x => x.id === state.quizAssessment); 
+    const bank = isExam ? state.data.examQuestionBank : state.data.questionBank; 
+    const questions = bank[state.quizAssessment] || []; 
     
-    if (!a) return empty(t('pages.assessmentNotFound')); 
+    if (!a) return empty(t(isExam ? 'pages.examNotFound' : 'pages.assessmentNotFound')); 
     
     const idx = state.quizIndex; 
     const q = questions[idx]; 
@@ -437,6 +470,8 @@ function resultPage()
     const scoreColor = r.score >= 70 ? 'var(--good)' : r.score >= 50 ? 'var(--high)' : 'var(--critical)';
     const gapBadge = badge(remaining > 0 ? `Remaining gap: ${remaining}` : 'Gap closed', remaining > 0 ? 'var(--high)' : 'var(--good)', remaining > 0 ? 'var(--high-soft)' : 'var(--good-soft)');
     const improvement = remaining > 0 ? `Continue building toward ${esc(state.data.levelNames[c?.required])} level ${esc(r.assessment.competency)}.` : 'No major gaps remaining for this competency.';
+    const skipped = r.skipped ?? 0;
+    const wrong = r.wrong ?? Math.max(0, r.total - r.correct - skipped);
     if(document.fullscreenElement)document.exitFullscreen();
     return pageHeader(t('pages.resultTitle'), r.assessment.title) + `
         ${proctorSummaryCard()}
@@ -455,6 +490,16 @@ function resultPage()
                 </div>
                 <div class="mt-12">${levelBar(r.newLevel, c ? c.required : r.newLevel)}</div>
             </div>
+        </div>
+        <div class="card mb-20">
+            <div class="section-title">
+                <h3 class="hr-title">Question breakdown</h3>
+            </div>
+            ${svgPie([
+                { label: t('common.resultRight'), value: r.correct, color: 'var(--good, #2F6F4F)' },
+                { label: t('common.resultWrong'), value: wrong, color: 'var(--critical, #A63D2F)' },
+                { label: t('common.resultSkipped'), value: skipped, color: 'var(--ink-soft, #8FA0AE)' }
+            ])}
         </div>
         <div class="card mb-20">
             <div class="section-title">
@@ -492,6 +537,7 @@ function progressPage()
         <div class="kpi-grid">
             ${kpi('Courses completed', 1 + improved, '', '#0E7C7B')}
             ${kpi(t('common.assessmentsCompletedLabel'), state.history.length, '', '#16232F')}
+            ${kpi(t('common.examsCompletedLabel'), state.examHistory.length, '', '#0E7C7B')}
             ${kpi(t('common.competenciesImproved'), improved, '', '#2F6F4F')}
             ${kpi('Learning hours', hours, '', '#9C8B3C')}
         </div>
