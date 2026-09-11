@@ -2,7 +2,7 @@
     "testificate@test.com": {
         "username": "Testificate",
         "password": "12345678",
-        "session": "5pgcp2yn0yb5g8spm9lvuy1cp8ebo9v4zxje41xf5k85g6bzzk1towqgrqvamp88",
+        "session": "6reuabco0mwacv3p9gj4kesh8f471e74tydelmjxlu75pzuew8lsh3jairsk7gwv",
         "id": 12121,
         "designation": "Statistical Officer",
         "department": "Department of Statistics",
@@ -19,7 +19,7 @@
                 "current": 3,
                 "required": 4,
                 "evidence": "Self-assessment + peer review, 2025",
-                "lastAssessed": "Just now"
+                "lastAssessed": "Feb 2026"
             },
             {
                 "name": "Sampling",
@@ -93,8 +93,7 @@
             }
         ],
         "assessmentsDone": [
-            "a-sql",
-            "a-sd"
+            "a-sql"
         ],
         "assessmentHistory": [
             {
@@ -106,22 +105,9 @@
                     "minutes": 12,
                     "difficulty": "Intermediate"
                 },
-                "score": 25,
+                "score": 0,
                 "prevLevel": 2,
                 "newLevel": 2
-            },
-            {
-                "assessment": {
-                    "id": "a-sd",
-                    "title": "Survey Design Assessment",
-                    "competency": "Survey Design",
-                    "questions": 3,
-                    "minutes": 10,
-                    "difficulty": "Advanced"
-                },
-                "score": 67,
-                "prevLevel": 3,
-                "newLevel": 3
             }
         ]
     },
@@ -130,14 +116,14 @@
         "password": "admin",
         "session": "3y6rvv66g7ndbd4djt3fek0lwh6ifywrea40bi1xnoyousa2vzhlorzugbjo31wz",
         "id": 12123,
-        "designation": "Statistical Officer",
+        "designation": "Deputy Director, Statistics",
         "department": "Department of Statistics",
         "organization": "Government of Punjab",
-        "group": "Group B (Gazetted)",
+        "group": "Group A (Gazetted)",
         "location": "Chandigarh",
-        "yearsOfService": 7,
-        "role": "Official Statistics & Data Analysis",
-        "reportsTo": "Deputy Director, Statistics",
+        "yearsOfService": 14,
+        "role": "Departmental Administration & Workforce Planning",
+        "reportsTo": "Director, Statistics",
         "appRole": "admin",
         "competencies": [
             {
@@ -231,8 +217,8 @@
         "organization": "Government of Punjab",
         "group": "Group B (Gazetted)",
         "location": "Chandigarh",
-        "yearsOfService": 7,
-        "role": "something",
+        "yearsOfService": 3,
+        "role": "Official Statistics & Data Analysis",
         "reportsTo": "Deputy Director, Statistics",
         "appRole": "employee",
         "competencies": [

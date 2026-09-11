@@ -366,7 +366,7 @@ function assessmentsPage()
                         ${c ? `<div class="tiny" style="color:var(--ink-soft);margin-bottom:10px">
                             ${esc(t('common.current'))}: ${esc(state.data.levelNames[c.current])} → ${esc(t('common.target'))}: ${esc(state.data.levelNames[c.required])}
                         </div>` : ''}
-                        <button class="${done ? 'btn-secondary' : 'btn-teal'} btn-block" onclick="openPage('quiz', ${esc(JSON.stringify(a.id))})">
+                        <button class="${done ? 'btn-secondary' : 'btn-teal'} btn-block" onclick="proctorBeginCheck(${esc(JSON.stringify(a.id))})">
                             ${esc(done ? t('common.retakeAssessment') : t('common.startAssessment'))}
                         </button>
                     </div>`; 
@@ -386,7 +386,7 @@ function quizPage()
     const selected = state.quizAnswers[idx]; 
     const pct = ((idx + 1) / questions.length) * 100; 
     
-    return pageHeader(a.title, `Question ${idx + 1} of ${questions.length}`, `<button class="btn-secondary" onclick="openPage('assess')">${esc(t('common.exit'))}</button>`) + `
+    return proctorBar() + pageHeader(a.title, `Question ${idx + 1} of ${questions.length}`, `<button class="btn-secondary" onclick="proctorExitQuiz()">${esc(t('common.exit'))}</button>`) + `
         <div class="progress-bar" style="max-width:640px;margin-bottom:22px">
             <div class="progress-fill" style="width:${pct}%"></div>
         </div>
@@ -420,6 +420,7 @@ function resultPage()
     const improvement = remaining > 0 ? `Continue building toward ${esc(state.data.levelNames[c?.required])} level ${esc(r.assessment.competency)}.` : 'No major gaps remaining for this competency.';
     
     return pageHeader(t('pages.resultTitle'), r.assessment.title) + `
+        ${proctorSummaryCard()}
         <div class="grid-2 mb-20">
             <div class="card right">
                 <div class="eyebrow">Assessment score</div>

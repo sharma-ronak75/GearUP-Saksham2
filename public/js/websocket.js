@@ -125,6 +125,7 @@ function render()
     const root = document.querySelector('#app');
     root.innerHTML = state.loggedIn && state.data ? shell() : loginPage();
     if (state.aiOpen) scrollAiToBottom();
+    if (typeof proctorAttachPreview === 'function') proctorAttachPreview();
 }
 
 async function relog()

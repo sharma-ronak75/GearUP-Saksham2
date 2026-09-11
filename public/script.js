@@ -2,6 +2,7 @@ const SAKSHAM_SCRIPTS = [
     'js/state-i18n.js',
     'js/config-utils.js',
     'js/shell.js',
+    'js/proctor.js',
     'js/employee-pages.js',
     'js/ai-page.js',
     'js/trainer-pages.js',

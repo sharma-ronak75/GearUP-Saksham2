@@ -65,6 +65,7 @@ function renderPage()
             case 'learning': return learningPage();
             case 'recommend': return recommendPage();
             case 'assess': return assessmentsPage();
+            case 'proctor-check': return proctorCheckPage();
             case 'quiz': return quizPage();
             case 'result': return resultPage();
             case 'progress': return progressPage();

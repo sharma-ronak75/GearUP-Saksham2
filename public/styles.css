@@ -1080,3 +1080,187 @@ button:hover,button:active
     text-shadow: 0px 0px 5px white;
     box-shadow: 0px 0px 10px rgb(0, 0, 0);
 }
+/* ===== Proctoring: pre-check + in-quiz camera/mic monitoring ===== */
+
+.proctor-check-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.proctor-preview-box {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 4 / 3;
+    background: #0d1620;
+    border-radius: 14px;
+    overflow: hidden;
+    margin: 16px auto;
+    border: 2px solid var(--line, #E4E4DE);
+}
+
+.proctor-preview-box video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1);
+    display: block;
+}
+
+.proctor-preview-box .proctor-placeholder {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: #8FA0AE;
+    font-size: 14px;
+    text-align: center;
+    padding: 20px;
+}
+
+.proctor-check-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 480px;
+    margin: 18px auto;
+    text-align: left;
+}
+
+.proctor-check-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #F6F6F2;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.proctor-check-item .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #C6C6BE;
+    flex-shrink: 0;
+}
+
+.proctor-check-item.ok .dot { background: var(--good); }
+.proctor-check-item.ok { color: var(--good); }
+.proctor-check-item.fail .dot { background: var(--critical); }
+.proctor-check-item.fail { color: var(--critical); }
+.proctor-check-item.pending .dot { background: var(--high); }
+.proctor-check-item.pending { color: var(--high); }
+
+.proctor-rules {
+    text-align: left;
+    max-width: 480px;
+    margin: 0 auto 18px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    background: var(--good-soft);
+    border-radius: 10px;
+    padding: 14px 16px;
+}
+
+.proctor-rules li { margin: 4px 0; }
+
+.proctor-bar {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #16232F;
+    color: #fff;
+    border-radius: 12px;
+    padding: 10px 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.proctor-bar .rec-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #E24C4C;
+    animation: proctor-pulse 1.4s infinite;
+    flex-shrink: 0;
+}
+
+@keyframes proctor-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+}
+
+.proctor-bar-cam {
+    width: 64px;
+    height: 48px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000;
+    flex-shrink: 0;
+}
+
+.proctor-bar-cam video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1);
+    display: block;
+}
+
+.proctor-bar-status {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #C7CFD8;
+}
+
+.proctor-bar-warn {
+    margin-left: auto;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #FFD27A;
+    background: rgba(255, 210, 122, 0.12);
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+
+.proctor-toast {
+    position: fixed;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--critical);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-weight: 700;
+    z-index: 999;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    animation: proctor-toast-in 0.2s ease-out;
+}
+
+@keyframes proctor-toast-in {
+    from { opacity: 0; transform: translate(-50%, -10px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.proctor-summary-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.proctor-summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #F6F6F2;
+}

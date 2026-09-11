@@ -84,9 +84,13 @@ function esc(v)
 
 function save()
 {
+    // Never persist a mid-proctoring page across reloads - the camera stream
+    // and fullscreen state cannot survive a refresh, so resuming here would
+    // strand the user on a broken screen. Fall back to the assessments list.
+    const pageToPersist = (state.page === 'quiz' || state.page === 'proctor-check') ? 'assess' : state.page;
     localStorage.setItem('saksham.loggedIn', state.loggedIn ? '1' : '0');
     localStorage.setItem('saksham.role', state.role);
-    localStorage.setItem('saksham.page', state.page);
+    localStorage.setItem('saksham.page', pageToPersist);
     localStorage.setItem('saksham.language', state.language);
     localStorage.setItem('saksham.lastResult', JSON.stringify(state.lastResult));
     localStorage.setItem('saksham.assessmentsDone', JSON.stringify(state.assessmentsDone));
@@ -182,6 +186,18 @@ function crumbs()
 
 function openPage(p, arg = null)
 {
+    // Leaving the quiz/proctor-check pages via any other navigation route
+    // (sidebar links, breadcrumbs, etc.) should tear down the camera/mic
+    // session and monitoring listeners instead of leaving them running.
+    if (typeof proctor !== 'undefined' && proctor.active && p !== 'quiz' && p !== 'proctor-check')
+    {
+        proctorEndExam();
+    }
+    else if (typeof proctor !== 'undefined' && proctor.stream && p !== 'quiz' && p !== 'proctor-check')
+    {
+        proctorStopDevices();
+    }
+
     state.page = p;
     if (p === 'why')
     {
@@ -200,6 +216,10 @@ function openPage(p, arg = null)
 
 function logout()
 {
+    if (typeof proctor !== 'undefined' && (proctor.active || proctor.stream))
+    {
+        proctorEndExam();
+    }
     state.loggedIn = false;
     state.page = 'dashboard';
     localStorage.session = "";

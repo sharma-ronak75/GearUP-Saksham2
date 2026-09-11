@@ -74,14 +74,18 @@ async function handleDemoAdmin()
 
 async function handleQuizSubmit()
 {
-    const body = { answers: state.quizAnswers };
+    // Pad unanswered questions (e.g. from a proctoring auto-submit) so the
+    // backend still receives one answer per question; unanswered = -1 (never matches).
+    const questions = state.data.questionBank[state.quizAssessment] || [];
+    const answers = questions.map((_, i) => state.quizAnswers[i] !== undefined ? state.quizAnswers[i] : -1);
+
     try
     {
         const result = await requestService('submit_assessment', {
             email: localStorage.getItem('email'),
             session: localStorage.getItem('session'),
             assessmentId: state.quizAssessment,
-            answers: body.answers
+            answers
         });
         state.data.competencies = result.competencies;
         state.lastResult = result;
@@ -92,12 +96,18 @@ async function handleQuizSubmit()
             prevLevel: result.prevLevel,
             newLevel: result.newLevel
         });
+        state.lastProctorSummary = {
+            violations: [...proctor.violations],
+            terminatedReason: state.quizTerminatedReason || null
+        };
+        proctorEndExam();
         state.page = 'result';
         save();
         render();
     }
     catch (e)
     {
+        proctorEndExam();
         alert(e.message);
     }
 }

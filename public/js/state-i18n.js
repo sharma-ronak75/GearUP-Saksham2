@@ -6,6 +6,8 @@ const state = {
     quizAssessment: null,
     quizIndex: 0,
     quizAnswers: [],
+    quizTerminatedReason: null,
+    lastProctorSummary: null,
     lastResult: JSON.parse(localStorage.getItem('saksham.lastResult') || 'null'),
     assessmentsDone: JSON.parse(localStorage.getItem('saksham.assessmentsDone') || '[]'),
     history: JSON.parse(localStorage.getItem('saksham.history') || '[]'),
