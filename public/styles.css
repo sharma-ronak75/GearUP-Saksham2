@@ -377,6 +377,57 @@ h1 {
     padding: 4px
 }
 
+/* ===== Menu lock (active during a proctored assessment) ===== */
+
+.app-sidebar-panel,
+.topbar {
+    transition: opacity .25s ease, filter .25s ease;
+}
+
+.app-sidebar-panel.nav-locked .sidebar-nav,
+.app-sidebar-panel.nav-locked .sidebar-footer {
+    opacity: .4;
+    filter: grayscale(1);
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.app-sidebar-panel.nav-locked .sidebar-link {
+    cursor: not-allowed;
+}
+
+.app-sidebar-panel.nav-locked .close-sidebar,
+.topbar.nav-locked .mobile-menu,
+.topbar.nav-locked .language-select,
+.topbar.nav-locked .avatar {
+    opacity: .4;
+    filter: grayscale(1);
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.mobile-menu:disabled,
+.language-select:disabled {
+    opacity: .4;
+    filter: grayscale(1);
+    cursor: not-allowed;
+}
+
+.nav-lock-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 10px 0;
+    padding: 9px 12px;
+    border-radius: 6px;
+    background: rgba(166, 61, 47, .18);
+    border: 1px solid rgba(166, 61, 47, .35);
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
 .topbar {
     position: sticky;
     top: 0;
@@ -826,6 +877,15 @@ h1 {
     gap: 8px;
     margin-bottom: 16px;
     flex-wrap: wrap
+}
+
+.tab-fade {
+    animation: tabFadeIn .22s ease;
+}
+
+@keyframes tabFadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .hr-title {

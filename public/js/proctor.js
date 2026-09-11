@@ -251,6 +251,7 @@ function proctorCancelCheck()
 {
     proctorStopDevices();
     state.page = 'assess';
+    state.trainingSubTab = 'assess';
     save();
     render();
 }
@@ -259,6 +260,7 @@ function proctorExitQuiz()
 {
     proctorEndExam();
     state.page = 'assess';
+    state.trainingSubTab = 'assess';
     save();
     render();
 }
@@ -302,7 +304,7 @@ function proctorCheckPage()
                     <li>The assessment will run in fullscreen. Leaving fullscreen, switching tabs, or losing window focus will be flagged.</li>
                     <li>Copy, paste, and right-click are disabled during the assessment.</li>
                     <li>After ${proctor.maxWarnings} warnings, the assessment will auto-submit with your current answers.</li>
-                    <li>Nothing is recorded or uploaded — the camera preview is local to your browser.</li>
+                    <li>Nothing is recorded or uploaded   the camera preview is local to your browser.</li>
                 </ul>
             </div>
             <div class="flex gap-10" style="justify-content:center;flex-wrap:wrap">

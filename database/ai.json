@@ -2,11 +2,11 @@
     "aiQa": [
         {
             "q": "Why do I need SQL?",
-            "a": "Your role — Statistical Officer — requires you to analyse government datasets. That activity needs SQL at an Advanced level (4/5); your current evidence shows Intermediate (2/5), a gap of 2 levels, the largest gap in your profile. Closing it reduces time spent on manual data handling."
+            "a": "Your role   Statistical Officer   requires you to analyse government datasets. That activity needs SQL at an Advanced level (4/5); your current evidence shows Intermediate (2/5), a gap of 2 levels, the largest gap in your profile. Closing it reduces time spent on manual data handling."
         },
         {
             "q": "What should I learn next?",
-            "a": "Based on gap size and role relevance, your top priority is SQL, followed by Data Quality Frameworks. You're already in Phase 2 of your SQL learning path — Advanced SQL for Government Data."
+            "a": "Based on gap size and role relevance, your top priority is SQL, followed by Data Quality Frameworks. You're already in Phase 2 of your SQL learning path   Advanced SQL for Government Data."
         },
         {
             "q": "Which competency is my biggest gap?",

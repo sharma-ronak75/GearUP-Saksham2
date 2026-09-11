@@ -11,8 +11,7 @@ const nav = {
         ['gaps', 'nav.gaps', '!'],
         ['why', 'nav.why', '?'],
         ['learning', 'nav.learning', '▤'],
-        ['recommend', 'nav.recommend', '✦'],
-        ['assess', 'nav.assess', '✓'],
+        ['assess', 'nav.assess', '✦'],
         ['progress', 'nav.progress', '↗'],
     ],
     trainer: [
@@ -40,7 +39,6 @@ const pageLabelKey = {
     gaps: 'nav.gaps',
     why: 'nav.why',
     learning: 'nav.learning',
-    recommend: 'nav.recommend',
     assess: 'nav.assess',
     quiz: 'nav.assess',
     result: 'pages.resultTitle',
@@ -91,6 +89,7 @@ function save()
     localStorage.setItem('saksham.loggedIn', state.loggedIn ? '1' : '0');
     localStorage.setItem('saksham.role', state.role);
     localStorage.setItem('saksham.page', pageToPersist);
+    localStorage.setItem('saksham.trainingSubTab', state.trainingSubTab || 'igot');
     localStorage.setItem('saksham.language', state.language);
     localStorage.setItem('saksham.lastResult', JSON.stringify(state.lastResult));
     localStorage.setItem('saksham.assessmentsDone', JSON.stringify(state.assessmentsDone));
@@ -186,14 +185,16 @@ function crumbs()
 
 function openPage(p, arg = null)
 {
-    // Leaving the quiz/proctor-check pages via any other navigation route
-    // (sidebar links, breadcrumbs, etc.) should tear down the camera/mic
-    // session and monitoring listeners instead of leaving them running.
+    // While a proctored assessment is active, the menu is locked - block any
+    // navigation away from the quiz/proctor-check flow rather than silently
+    // tearing down the exam session. The person must use the in-quiz Exit
+    // button, which ends proctoring explicitly before navigating.
     if (typeof proctor !== 'undefined' && proctor.active && p !== 'quiz' && p !== 'proctor-check')
     {
-        proctorEndExam();
+        proctorShowToast(t('common.navLockedToast'));
+        return;
     }
-    else if (typeof proctor !== 'undefined' && proctor.stream && p !== 'quiz' && p !== 'proctor-check')
+    if (typeof proctor !== 'undefined' && proctor.stream && p !== 'quiz' && p !== 'proctor-check')
     {
         proctorStopDevices();
     }
@@ -202,6 +203,10 @@ function openPage(p, arg = null)
     if (p === 'why')
     {
         state.selectedGap = arg || state.selectedGap || 'SQL';
+    }
+    if (p === 'assess' && arg)
+    {
+        state.trainingSubTab = arg;
     }
     if (p === 'quiz'){
         state.quizAssessment = arg; 
@@ -216,9 +221,16 @@ function openPage(p, arg = null)
 
 function logout()
 {
-    if (typeof proctor !== 'undefined' && (proctor.active || proctor.stream))
+    // Block logging out mid-exam for the same reason navigation is blocked -
+    // the person must exit the proctored session explicitly first.
+    if (typeof proctor !== 'undefined' && proctor.active)
     {
-        proctorEndExam();
+        proctorShowToast(t('common.navLockedToast'));
+        return;
+    }
+    if (typeof proctor !== 'undefined' && proctor.stream)
+    {
+        proctorStopDevices();
     }
     state.loggedIn = false;
     state.page = 'dashboard';

@@ -40,7 +40,7 @@ function employeeDashboard()
                     <span>◷ 12 min</span>
                     <span>☷ 4 questions</span>
                 </div>
-                <button class="btn-teal btn-block mt-12" style="font-size: 20px;" onclick="openPage('assess');">Go to assessments</button>
+                <button class="btn-teal btn-block mt-12" style="font-size: 20px;" onclick="openPage('assess','assess');">Go to assessments</button>
                 <!--<div style="font-weight:700;margin-bottom:8px;font-size:16px">Competency growth</div>
                 ${svgLine([2.4, 2.6, 2.8, Number(avg)])} -->
             </div>
@@ -66,7 +66,7 @@ function employeeDashboard()
         <div class="card">
             <div class="section-title">
                 <h3 class="hr-title">${esc(t('pages.dashboardRecommendedLearning'))}</h3>
-                <a class="muted-link" onclick="openPage('recommend')">${esc(t('common.viewAll'))} →</a>
+                <a class="muted-link" onclick="openPage('assess','igot')">${esc(t('common.viewAll'))} →</a>
             </div>
             <div class="grid-auto">
                 ${state.data.courses.filter(c => gaps.some(g => g.name === c.competency)).slice(0, 3).map(c => `
@@ -268,7 +268,7 @@ function whyPage()
         </div>
         <div class="flex gap-10" style="margin-top:20px">
             <button class="btn-teal" onclick="openPage('learning')">View personalized learning path</button>
-            <button class="btn-secondary" onclick="openPage('recommend')">See course recommendations</button>
+            <button class="btn-secondary" onclick="openPage('assess','igot')">See course recommendations</button>
         </div>`; 
 }
 
@@ -307,10 +307,10 @@ function learningPage()
                     </div>
                 </div>`).join('')}
         </div>
-        <button class="btn-teal" onclick="openPage('recommend')">View recommendations</button>`; 
+        <button class="btn-teal" onclick="openPage('assess','igot')">View recommendations</button>`; 
 }
 
-function recommendPage()
+function recommendPageBody()
 { 
     const gaps = state.data.competencies.filter(c => c.required > c.current).map(c => c.name); 
     const groups = [
@@ -319,8 +319,7 @@ function recommendPage()
         ['NSSTA / Specialized Training', 'NSSTA']
     ]; 
     
-    return pageHeader(t('pages.recommendTitle'), t('pages.recommendSubtitle')) + 
-        groups.map(([label, provider]) => { 
+    return groups.map(([label, provider]) => { 
             const cs = state.data.courses.filter(c => c.provider === provider); 
             return `
                 <div class="mb-20">
@@ -345,9 +344,9 @@ function recommendPage()
         }).join(''); 
 }
 
-function assessmentsPage()
+function assessmentsPageBody()
 { 
-    return pageHeader(t('pages.assessTitle'), t('pages.assessSubtitle')) + `
+    return `
         <div class="grid-auto">
             ${state.data.assessments.map(a => { 
                 const c = state.data.competencies.find(x => x.name === a.competency); 
@@ -372,6 +371,26 @@ function assessmentsPage()
                     </div>`; 
             }).join('')}
         </div>`; 
+}
+
+function trainingAssessPage()
+{
+    // iGOT/Training and Assessments used to be two separate sidebar tabs;
+    // they're merged here into one page with an internal pill-switcher so
+    // there's a single nav entry, with a fade so switching feels seamless.
+    const tab = state.trainingSubTab === 'assess' ? 'assess' : 'igot';
+    return pageHeader(t('pages.assessTitle'), t('pages.assessSubtitle')) + `
+        <div class="pill-nav">
+            <button class="${tab === 'igot' ? 'btn-primary' : 'btn-secondary'}" onclick="state.trainingSubTab='igot';save();render()">
+                ${esc(t('common.tabIgotTraining'))}
+            </button>
+            <button class="${tab === 'assess' ? 'btn-primary' : 'btn-secondary'}" onclick="state.trainingSubTab='assess';save();render()">
+                ${esc(t('common.tabAssessments'))}
+            </button>
+        </div>
+        <div class="tab-fade" data-tab="${tab}">
+            ${tab === 'igot' ? recommendPageBody() : assessmentsPageBody()}
+        </div>`;
 }
 
 function quizPage()
@@ -418,7 +437,7 @@ function resultPage()
     const scoreColor = r.score >= 70 ? 'var(--good)' : r.score >= 50 ? 'var(--high)' : 'var(--critical)';
     const gapBadge = badge(remaining > 0 ? `Remaining gap: ${remaining}` : 'Gap closed', remaining > 0 ? 'var(--high)' : 'var(--good)', remaining > 0 ? 'var(--high-soft)' : 'var(--good-soft)');
     const improvement = remaining > 0 ? `Continue building toward ${esc(state.data.levelNames[c?.required])} level ${esc(r.assessment.competency)}.` : 'No major gaps remaining for this competency.';
-    
+    if(document.fullscreenElement)document.exitFullscreen();
     return pageHeader(t('pages.resultTitle'), r.assessment.title) + `
         ${proctorSummaryCard()}
         <div class="grid-2 mb-20">

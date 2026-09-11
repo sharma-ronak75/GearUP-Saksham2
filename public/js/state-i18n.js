@@ -1,7 +1,12 @@
 const state = {
     loggedIn: localStorage.getItem('saksham.loggedIn') === '1',
     role: localStorage.getItem('saksham.role') || 'employee',
-    page: localStorage.getItem('saksham.page') === 'ai' ? 'dashboard' : (localStorage.getItem('saksham.page') || 'dashboard'),
+    page: (() => {
+        const stored = localStorage.getItem('saksham.page');
+        // 'ai' page was removed; 'recommend' was merged into 'assess' - remap old saved values.
+        if (stored === 'ai' || stored === 'recommend') return stored === 'recommend' ? 'assess' : 'dashboard';
+        return stored || 'dashboard';
+    })(),
     selectedGap: null,
     quizAssessment: null,
     quizIndex: 0,
@@ -14,6 +19,7 @@ const state = {
     language: localStorage.getItem('saksham.language') || 'en',
     data: null,
     mobileOpen: false,
+    trainingSubTab: localStorage.getItem('saksham.trainingSubTab') || 'igot',
     aiOpen: false,
     aiMessages: [
         { 
@@ -174,7 +180,7 @@ const I18N = {
             why: 'Skill Info', 
             learning: 'Learning Path', 
             recommend: 'iGOT / Training', 
-            assess: 'Assessments', 
+            assess: 'iGOT / Training & Assessments', 
             progress: 'Progress & Growth', 
             ai: 'AI Assistant', 
             tDashboard: 'Dashboard', 
@@ -236,7 +242,12 @@ const I18N = {
             activePrograms: 'Active programs', 
             competencyGapsAddressed: 'Competency gaps addressed', 
             avgAssessmentScore: 'Avg. assessment score', 
-            trainingParticipation: 'Training participation' 
+            trainingParticipation: 'Training participation', 
+            tabIgotTraining: 'iGOT / Training', 
+            tabAssessments: 'Assessments', 
+            navLockedBanner: 'Menu locked during the proctored assessment', 
+            navLockedTooltip: 'Locked during the proctored assessment', 
+            navLockedToast: 'Finish or exit the proctored assessment before navigating.' 
         },
         login: { 
             brand: 'Saksham', 
@@ -270,8 +281,8 @@ const I18N = {
             learningSubtitle: 'Roadmap', 
             recommendTitle: 'Recommendations', 
             recommendSubtitle: 'Recommendations are generated from your skill gaps - mock data for this prototype', 
-            assessTitle: 'Assessments', 
-            assessSubtitle: 'Demonstrate improvement and update your competency evidence', 
+            assessTitle: 'iGOT / Training & Assessments', 
+            assessSubtitle: 'Recommended learning and competency assessments, in one place', 
             resultTitle: 'Assessment Result', 
             progressTitle: 'Progress & Growth', 
             progressSubtitle: 'Your capacity-building journey so far', 
@@ -462,6 +473,11 @@ Object.assign(I18N.hi.ui, {
 
 Object.assign(I18N.hi.common, { 
     logOut: 'लॉग आउट', 
+    tabIgotTraining: 'iGOT / प्रशिक्षण', 
+    tabAssessments: 'आकलन', 
+    navLockedBanner: 'प्रोक्टर्ड आकलन के दौरान मेनू लॉक है', 
+    navLockedTooltip: 'प्रोक्टर्ड आकलन के दौरान लॉक', 
+    navLockedToast: 'नेविगेट करने से पहले प्रोक्टर्ड आकलन समाप्त करें या बाहर निकलें।', 
     current: 'वर्तमान', 
     required: 'आवश्यक', 
     gap: 'अंतर', 
@@ -506,7 +522,7 @@ Object.assign(I18N.hi.nav, {
     why: 'यह कौशल क्यों?', 
     learning: 'लर्निंग पाथ', 
     recommend: 'iGOT / प्रशिक्षण', 
-    assess: 'आकलन', 
+    assess: 'iGOT / प्रशिक्षण और आकलन', 
     progress: 'प्रगति और विकास', 
     ai: 'AI सहायक', 
     tDashboard: 'डैशबोर्ड', 

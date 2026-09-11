@@ -2,7 +2,7 @@
     "testificate@test.com": {
         "username": "Testificate",
         "password": "12345678",
-        "session": "6reuabco0mwacv3p9gj4kesh8f471e74tydelmjxlu75pzuew8lsh3jairsk7gwv",
+        "session": "n0jhoj6pa5879awuthkngameytpl9tmiv14vokrflxcz3aads8sn3poz9os5e56c",
         "id": 12121,
         "designation": "Statistical Officer",
         "department": "Department of Statistics",
@@ -19,7 +19,7 @@
                 "current": 3,
                 "required": 4,
                 "evidence": "Self-assessment + peer review, 2025",
-                "lastAssessed": "Feb 2026"
+                "lastAssessed": "Just now"
             },
             {
                 "name": "Sampling",
@@ -30,10 +30,10 @@
             },
             {
                 "name": "Data Quality Frameworks",
-                "current": 2,
+                "current": 3,
                 "required": 4,
                 "evidence": "Manager review, 2025",
-                "lastAssessed": "Feb 2026"
+                "lastAssessed": "Just now"
             },
             {
                 "name": "SQL",
@@ -68,7 +68,7 @@
                 "current": 2,
                 "required": 3,
                 "evidence": "iGOT course completion",
-                "lastAssessed": "Jan 2026"
+                "lastAssessed": "Just now"
             },
             {
                 "name": "Data Privacy",
@@ -82,7 +82,7 @@
                 "current": 4,
                 "required": 4,
                 "evidence": "360 review, 2025",
-                "lastAssessed": "Oct 2025"
+                "lastAssessed": "Just now"
             },
             {
                 "name": "Project Management",
@@ -93,7 +93,11 @@
             }
         ],
         "assessmentsDone": [
-            "a-sql"
+            "a-sql",
+            "a-dq",
+            "a-sd",
+            "a-dg",
+            "a-comm"
         ],
         "assessmentHistory": [
             {
@@ -108,6 +112,97 @@
                 "score": 0,
                 "prevLevel": 2,
                 "newLevel": 2
+            },
+            {
+                "assessment": {
+                    "id": "a-dq",
+                    "title": "Data Quality Assessment",
+                    "competency": "Data Quality Frameworks",
+                    "questions": 3,
+                    "minutes": 10,
+                    "difficulty": "Intermediate"
+                },
+                "score": 100,
+                "prevLevel": 2,
+                "newLevel": 3
+            },
+            {
+                "assessment": {
+                    "id": "a-sd",
+                    "title": "Survey Design Assessment",
+                    "competency": "Survey Design",
+                    "questions": 3,
+                    "minutes": 10,
+                    "difficulty": "Advanced"
+                },
+                "score": 67,
+                "prevLevel": 3,
+                "newLevel": 3
+            },
+            {
+                "assessment": {
+                    "id": "a-dg",
+                    "title": "Digital Governance Assessment",
+                    "competency": "Cybersecurity",
+                    "questions": 3,
+                    "minutes": 8,
+                    "difficulty": "Basic"
+                },
+                "score": 0,
+                "prevLevel": 2,
+                "newLevel": 2
+            },
+            {
+                "assessment": {
+                    "id": "a-sd",
+                    "title": "Survey Design Assessment",
+                    "competency": "Survey Design",
+                    "questions": 3,
+                    "minutes": 10,
+                    "difficulty": "Advanced"
+                },
+                "score": 33,
+                "prevLevel": 3,
+                "newLevel": 3
+            },
+            {
+                "assessment": {
+                    "id": "a-comm",
+                    "title": "Communication Assessment",
+                    "competency": "Communication",
+                    "questions": 3,
+                    "minutes": 8,
+                    "difficulty": "Basic"
+                },
+                "score": 0,
+                "prevLevel": 4,
+                "newLevel": 4
+            },
+            {
+                "assessment": {
+                    "id": "a-dq",
+                    "title": "Data Quality Assessment",
+                    "competency": "Data Quality Frameworks",
+                    "questions": 3,
+                    "minutes": 10,
+                    "difficulty": "Intermediate"
+                },
+                "score": 0,
+                "prevLevel": 3,
+                "newLevel": 3
+            },
+            {
+                "assessment": {
+                    "id": "a-comm",
+                    "title": "Communication Assessment",
+                    "competency": "Communication",
+                    "questions": 3,
+                    "minutes": 8,
+                    "difficulty": "Basic"
+                },
+                "score": 0,
+                "prevLevel": 4,
+                "newLevel": 4
             }
         ]
     },
