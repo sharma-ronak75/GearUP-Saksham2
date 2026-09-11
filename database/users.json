@@ -1,0 +1,320 @@
+{
+    "testificate@test.com": {
+        "username": "Testificate",
+        "password": "12345678",
+        "session": "5pgcp2yn0yb5g8spm9lvuy1cp8ebo9v4zxje41xf5k85g6bzzk1towqgrqvamp88",
+        "id": 12121,
+        "designation": "Statistical Officer",
+        "department": "Department of Statistics",
+        "organization": "Government of Punjab",
+        "group": "Group B (Gazetted)",
+        "location": "Chandigarh",
+        "yearsOfService": 7,
+        "role": "Official Statistics & Data Analysis",
+        "reportsTo": "Deputy Director, Statistics",
+        "appRole": "employee",
+        "competencies": [
+            {
+                "name": "Survey Design",
+                "current": 3,
+                "required": 4,
+                "evidence": "Self-assessment + peer review, 2025",
+                "lastAssessed": "Just now"
+            },
+            {
+                "name": "Sampling",
+                "current": 3,
+                "required": 3,
+                "evidence": "Self-assessment, 2025",
+                "lastAssessed": "Jan 2026"
+            },
+            {
+                "name": "Data Quality Frameworks",
+                "current": 2,
+                "required": 4,
+                "evidence": "Manager review, 2025",
+                "lastAssessed": "Feb 2026"
+            },
+            {
+                "name": "SQL",
+                "current": 2,
+                "required": 4,
+                "evidence": "iGOT course completion + self-assessment",
+                "lastAssessed": "Just now"
+            },
+            {
+                "name": "Python",
+                "current": 2,
+                "required": 3,
+                "evidence": "Self-assessment, 2025",
+                "lastAssessed": "Dec 2025"
+            },
+            {
+                "name": "Data Visualization",
+                "current": 3,
+                "required": 4,
+                "evidence": "Manager review, 2025",
+                "lastAssessed": "Feb 2026"
+            },
+            {
+                "name": "GIS",
+                "current": 1,
+                "required": 2,
+                "evidence": "Self-assessment, 2025",
+                "lastAssessed": "Nov 2025"
+            },
+            {
+                "name": "Cybersecurity",
+                "current": 2,
+                "required": 3,
+                "evidence": "iGOT course completion",
+                "lastAssessed": "Jan 2026"
+            },
+            {
+                "name": "Data Privacy",
+                "current": 3,
+                "required": 3,
+                "evidence": "Self-assessment, 2025",
+                "lastAssessed": "Jan 2026"
+            },
+            {
+                "name": "Communication",
+                "current": 4,
+                "required": 4,
+                "evidence": "360 review, 2025",
+                "lastAssessed": "Oct 2025"
+            },
+            {
+                "name": "Project Management",
+                "current": 2,
+                "required": 3,
+                "evidence": "Self-assessment, 2025",
+                "lastAssessed": "Sep 2025"
+            }
+        ],
+        "assessmentsDone": [
+            "a-sql",
+            "a-sd"
+        ],
+        "assessmentHistory": [
+            {
+                "assessment": {
+                    "id": "a-sql",
+                    "title": "SQL Skill Assessment",
+                    "competency": "SQL",
+                    "questions": 4,
+                    "minutes": 12,
+                    "difficulty": "Intermediate"
+                },
+                "score": 25,
+                "prevLevel": 2,
+                "newLevel": 2
+            },
+            {
+                "assessment": {
+                    "id": "a-sd",
+                    "title": "Survey Design Assessment",
+                    "competency": "Survey Design",
+                    "questions": 3,
+                    "minutes": 10,
+                    "difficulty": "Advanced"
+                },
+                "score": 67,
+                "prevLevel": 3,
+                "newLevel": 3
+            }
+        ]
+    },
+    "admin@test.com": {
+        "username": "MrAdmin",
+        "password": "admin",
+        "session": "3y6rvv66g7ndbd4djt3fek0lwh6ifywrea40bi1xnoyousa2vzhlorzugbjo31wz",
+        "id": 12123,
+        "designation": "Statistical Officer",
+        "department": "Department of Statistics",
+        "organization": "Government of Punjab",
+        "group": "Group B (Gazetted)",
+        "location": "Chandigarh",
+        "yearsOfService": 7,
+        "role": "Official Statistics & Data Analysis",
+        "reportsTo": "Deputy Director, Statistics",
+        "appRole": "admin",
+        "competencies": [
+            {
+                "name": "Survey Design",
+                "current": 3,
+                "required": 4,
+                "evidence": "Self-assessment + peer review, 2025",
+                "lastAssessed": "Mar 2026"
+            },
+            {
+                "name": "Sampling",
+                "current": 3,
+                "required": 3,
+                "evidence": "Self-assessment, 2025",
+                "lastAssessed": "Jan 2026"
+            },
+            {
+                "name": "Data Quality Frameworks",
+                "current": 2,
+                "required": 4,
+                "evidence": "Manager review, 2025",
+                "lastAssessed": "Feb 2026"
+            },
+            {
+                "name": "SQL",
+                "current": 2,
+                "required": 4,
+                "evidence": "iGOT course completion + self-assessment",
+                "lastAssessed": "Apr 2026"
+            },
+            {
+                "name": "Python",
+                "current": 2,
+                "required": 3,
+                "evidence": "Self-assessment, 2025",
+                "lastAssessed": "Dec 2025"
+            },
+            {
+                "name": "Data Visualization",
+                "current": 3,
+                "required": 4,
+                "evidence": "Manager review, 2025",
+                "lastAssessed": "Feb 2026"
+            },
+            {
+                "name": "GIS",
+                "current": 1,
+                "required": 2,
+                "evidence": "Self-assessment, 2025",
+                "lastAssessed": "Nov 2025"
+            },
+            {
+                "name": "Cybersecurity",
+                "current": 2,
+                "required": 3,
+                "evidence": "iGOT course completion",
+                "lastAssessed": "Jan 2026"
+            },
+            {
+                "name": "Data Privacy",
+                "current": 3,
+                "required": 3,
+                "evidence": "Self-assessment, 2025",
+                "lastAssessed": "Jan 2026"
+            },
+            {
+                "name": "Communication",
+                "current": 4,
+                "required": 4,
+                "evidence": "360 review, 2025",
+                "lastAssessed": "Oct 2025"
+            },
+            {
+                "name": "Project Management",
+                "current": 2,
+                "required": 3,
+                "evidence": "Self-assessment, 2025",
+                "lastAssessed": "Sep 2025"
+            }
+        ],
+        "assessmentsDone": [],
+        "assessmentHistory": []
+    },
+    "hello@test.com": {
+        "username": "Hello",
+        "password": "hello",
+        "session": "9wyozx8myv97qr6ufaqwetq2i7fil8r1y9t1q1bwt4k7g9ryvaqnab1v6maop7mx",
+        "id": 12122,
+        "designation": "Data Analyst",
+        "department": "Department of Statistics",
+        "organization": "Government of Punjab",
+        "group": "Group B (Gazetted)",
+        "location": "Chandigarh",
+        "yearsOfService": 7,
+        "role": "something",
+        "reportsTo": "Deputy Director, Statistics",
+        "appRole": "employee",
+        "competencies": [
+            {
+                "name": "Survey Design",
+                "current": 3,
+                "required": 4,
+                "evidence": "Self-assessment + peer review, 2025",
+                "lastAssessed": "Mar 2026"
+            },
+            {
+                "name": "Sampling",
+                "current": 3,
+                "required": 3,
+                "evidence": "Self-assessment, 2025",
+                "lastAssessed": "Jan 2026"
+            },
+            {
+                "name": "Data Quality Frameworks",
+                "current": 2,
+                "required": 4,
+                "evidence": "Manager review, 2025",
+                "lastAssessed": "Feb 2026"
+            },
+            {
+                "name": "SQL",
+                "current": 2,
+                "required": 4,
+                "evidence": "iGOT course completion + self-assessment",
+                "lastAssessed": "Apr 2026"
+            },
+            {
+                "name": "Python",
+                "current": 2,
+                "required": 3,
+                "evidence": "Self-assessment, 2025",
+                "lastAssessed": "Dec 2025"
+            },
+            {
+                "name": "Data Visualization",
+                "current": 3,
+                "required": 4,
+                "evidence": "Manager review, 2025",
+                "lastAssessed": "Feb 2026"
+            },
+            {
+                "name": "GIS",
+                "current": 1,
+                "required": 2,
+                "evidence": "Self-assessment, 2025",
+                "lastAssessed": "Nov 2025"
+            },
+            {
+                "name": "Cybersecurity",
+                "current": 2,
+                "required": 3,
+                "evidence": "iGOT course completion",
+                "lastAssessed": "Jan 2026"
+            },
+            {
+                "name": "Data Privacy",
+                "current": 3,
+                "required": 3,
+                "evidence": "Self-assessment, 2025",
+                "lastAssessed": "Jan 2026"
+            },
+            {
+                "name": "Communication",
+                "current": 4,
+                "required": 4,
+                "evidence": "360 review, 2025",
+                "lastAssessed": "Oct 2025"
+            },
+            {
+                "name": "Project Management",
+                "current": 2,
+                "required": 3,
+                "evidence": "Self-assessment, 2025",
+                "lastAssessed": "Sep 2025"
+            }
+        ],
+        "assessmentsDone": [],
+        "assessmentHistory": []
+    }
+}

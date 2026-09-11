@@ -1,0 +1,216 @@
+{
+    "assessments": [
+        {
+            "id": "a-sql",
+            "title": "SQL Skill Assessment",
+            "competency": "SQL",
+            "questions": 4,
+            "minutes": 12,
+            "difficulty": "Intermediate"
+        },
+        {
+            "id": "a-dq",
+            "title": "Data Quality Assessment",
+            "competency": "Data Quality Frameworks",
+            "questions": 3,
+            "minutes": 10,
+            "difficulty": "Intermediate"
+        },
+        {
+            "id": "a-sd",
+            "title": "Survey Design Assessment",
+            "competency": "Survey Design",
+            "questions": 3,
+            "minutes": 10,
+            "difficulty": "Advanced"
+        },
+        {
+            "id": "a-dg",
+            "title": "Digital Governance Assessment",
+            "competency": "Cybersecurity",
+            "questions": 3,
+            "minutes": 8,
+            "difficulty": "Basic"
+        },
+        {
+            "id": "a-comm",
+            "title": "Communication Assessment",
+            "competency": "Communication",
+            "questions": 3,
+            "minutes": 8,
+            "difficulty": "Basic"
+        }
+    ],
+    "questionBank": {
+        "a-sql": [
+            {
+                "q": "Which SQL clause is used to filter groups after aggregation?",
+                "options": [
+                    "WHERE",
+                    "HAVING",
+                    "GROUP BY",
+                    "ORDER BY"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "Which JOIN returns all rows from the left table and matched rows from the right?",
+                "options": [
+                    "INNER JOIN",
+                    "RIGHT JOIN",
+                    "LEFT JOIN",
+                    "CROSS JOIN"
+                ],
+                "answer": 2
+            },
+            {
+                "q": "Which function counts the number of non-null rows in a column?",
+                "options": [
+                    "SUM()",
+                    "COUNT()",
+                    "TOTAL()",
+                    "LEN()"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "What does an index primarily improve?",
+                "options": [
+                    "Data accuracy",
+                    "Query read performance",
+                    "Storage compression",
+                    "Data privacy"
+                ],
+                "answer": 1
+            }
+        ],
+        "a-dq": [
+            {
+                "q": "Which of these is a core dimension of data quality?",
+                "options": [
+                    "Consistency",
+                    "Popularity",
+                    "Novelty",
+                    "Aesthetics"
+                ],
+                "answer": 0
+            },
+            {
+                "q": "Duplicate records in a dataset primarily harm which dimension?",
+                "options": [
+                    "Timeliness",
+                    "Uniqueness",
+                    "Currency",
+                    "Relevance"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "What is the first step in a typical data validation pipeline?",
+                "options": [
+                    "Archiving",
+                    "Schema/format checks",
+                    "Publishing",
+                    "Visualization"
+                ],
+                "answer": 1
+            }
+        ],
+        "a-sd": [
+            {
+                "q": "What does stratified sampling primarily help ensure?",
+                "options": [
+                    "Lower cost only",
+                    "Representation across subgroups",
+                    "Faster data entry",
+                    "Higher response rate always"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "A pilot survey is mainly used to:",
+                "options": [
+                    "Publish final results",
+                    "Test and refine the questionnaire",
+                    "Replace the main survey",
+                    "Reduce sample size"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "Non-response bias arises when:",
+                "options": [
+                    "Everyone responds identically",
+                    "Non-respondents differ systematically from respondents",
+                    "The sample is too large",
+                    "Questions are too short"
+                ],
+                "answer": 1
+            }
+        ],
+        "a-dg": [
+            {
+                "q": "Which practice reduces risk when handling sensitive administrative data?",
+                "options": [
+                    "Sharing credentials for convenience",
+                    "Role-based access control",
+                    "Disabling audit logs",
+                    "Using default passwords"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "A digital signature primarily provides:",
+                "options": [
+                    "Faster upload speed",
+                    "Authenticity and integrity of a document",
+                    "Free storage",
+                    "Automatic translation"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "Phishing attempts most often arrive via:",
+                "options": [
+                    "Official department circulars",
+                    "Unexpected emails or links",
+                    "Printed memos",
+                    "In-person meetings only"
+                ],
+                "answer": 1
+            }
+        ],
+        "a-comm": [
+            {
+                "q": "In a report for policymakers, the executive summary should:",
+                "options": [
+                    "Contain every technical detail",
+                    "Highlight key findings and implications concisely",
+                    "Be omitted",
+                    "Only list raw data tables"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "Active listening in stakeholder meetings mainly helps to:",
+                "options": [
+                    "End meetings faster",
+                    "Accurately understand requirements and concerns",
+                    "Avoid taking notes",
+                    "Reduce attendance"
+                ],
+                "answer": 1
+            },
+            {
+                "q": "A good data visualization for a policy audience should:",
+                "options": [
+                    "Maximize decorative elements",
+                    "Prioritize clarity over decoration",
+                    "Hide the source data",
+                    "Use as many colors as possible"
+                ],
+                "answer": 1
+            }
+        ]
+    }
+}
